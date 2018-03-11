@@ -1,8 +1,3 @@
-resource "aws_launch_configuration" "as_conf" {
-  name          = "Linux_config"
-  image_id      = "ami-0e11276b"
-  instance_type = "t2.micro"
-}
 
 resource "aws_autoscaling_group" "auto_scale" {
   availability_zones        = ["us-east-2a","us-east-2b"]
@@ -14,7 +9,7 @@ resource "aws_autoscaling_group" "auto_scale" {
   desired_capacity          = 3
   force_delete              = true
 
-  launch_configuration      = "${aws_launch_configuration.as_conf.name}"
+  launch_configuration      = "Linux_config"
 
   initial_lifecycle_hook {
     name                 = "testhook"
