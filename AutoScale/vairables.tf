@@ -9,3 +9,11 @@ variable "aws_secret_key" {
 variable "aws_access_key" {
   type = "string"
 }
+
+variable "notification_arn" {
+  type = "string"
+}
+
+variable "notification_role_arn" {
+  type ="string"
+}
