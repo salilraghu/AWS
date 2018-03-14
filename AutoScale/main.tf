@@ -41,7 +41,7 @@ resource "aws_autoscaling_group" "auto_scale" {
     propagate_at_launch = false
   }
 }
-
+/*
 resource "aws_autoscaling_lifecycle_hook" "testhook" {
   name                   = "testhook"
   autoscaling_group_name = "${aws_autoscaling_group.auto_scale.name}"
@@ -52,3 +52,4 @@ resource "aws_autoscaling_lifecycle_hook" "testhook" {
   notification_target_arn = "${var.notification_arn}"
   role_arn                = "${var.notification_role_arn}"
 }
+*/
