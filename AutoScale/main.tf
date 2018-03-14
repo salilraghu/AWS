@@ -1,3 +1,16 @@
+resource "aws_autoscaling_notification" "notifications" {
+  group_names = [
+    "${aws_autoscaling_group.auto_scale.name}"
+  ]
+
+  notifications = [
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE",
+    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+  ]
+
+  topic_arn = "${var.basic_notification_arn}"
+}
 
 resource "aws_autoscaling_group" "auto_scale" {
   availability_zones        = ["us-east-2a","us-east-2b"]
@@ -11,24 +24,6 @@ resource "aws_autoscaling_group" "auto_scale" {
 
   launch_configuration      = "Linux_config"
   wait_for_capacity_timeout = 0
-  notifications = [
-    "autoscaling:EC2_INSTANCE_LAUNCH",
-    "autoscaling:EC2_INSTANCE_TERMINATE",
-    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
-  ]
-
-  topic_arn = "${var.basic_notification_arn}"
-
-  initial_lifecycle_hook {
-    name                 = "testhook"
-    default_result       = "CONTINUE"
-    heartbeat_timeout    = 60
-    lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
-
-
-    notification_target_arn = "${var.notification_arn}"
-    role_arn                = "${var.notification_role_arn}"
-  }
 
   tag {
     key                 = "Name"
@@ -45,4 +40,15 @@ resource "aws_autoscaling_group" "auto_scale" {
     value               = "ipsum"
     propagate_at_launch = false
   }
+}
+
+resource "aws_autoscaling_lifecycle_hook" "testhook" {
+  name                   = "testhook"
+  autoscaling_group_name = "${aws_autoscaling_group.auto_scale.name}"
+  default_result         = "CONTINUE"
+  heartbeat_timeout      = 60
+  lifecycle_transition   = "autoscaling:EC2_INSTANCE_LAUNCHING"
+
+  notification_target_arn = "${var.notification_arn}"
+  role_arn                = "${var.notification_role_arn}"
 }
