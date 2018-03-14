@@ -10,6 +10,14 @@ resource "aws_autoscaling_group" "auto_scale" {
   force_delete              = true
 
   launch_configuration      = "Linux_config"
+  wait_for_capacity_timeout = 0
+  notifications = [
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE",
+    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+  ]
+
+  topic_arn = "${var.basic_notification_arn}"
 
   initial_lifecycle_hook {
     name                 = "testhook"

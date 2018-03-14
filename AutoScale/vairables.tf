@@ -15,5 +15,9 @@ variable "notification_arn" {
 }
 
 variable "notification_role_arn" {
-  type ="string"
+  type = "string"
+}
+
+variable "basic_notification_arn" {
+  type = "string"
 }
