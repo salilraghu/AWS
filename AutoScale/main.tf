@@ -1,3 +1,4 @@
+/*
 resource "aws_autoscaling_notification" "notifications" {
   group_names = [
     "${aws_autoscaling_group.auto_scale.name}"
@@ -11,6 +12,7 @@ resource "aws_autoscaling_notification" "notifications" {
 
   topic_arn = "${var.basic_notification_arn}"
 }
+*/
 
 resource "aws_autoscaling_group" "auto_scale" {
   availability_zones        = ["us-east-2a","us-east-2b"]
